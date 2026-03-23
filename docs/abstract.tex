@@ -1,0 +1,29 @@
+% !TeX root = ../main.tex
+
+\sysusetup{
+  keywords  = {超大规模集成电路，布局布线，全局布线，并行计算，动态拥塞感知},
+  keywords* = {VLSI, placement and routing, global routing, parallel computing, dynamic congestion awareness},
+  keywords** = {Mémoire de bachelor, L'Abstract, Mots-clés},
+}
+
+\begin{abstract}
+  随着先进工艺节点的持续演进，超大规模集成电路（VLSI）设计规模与复杂度呈指数级增长，传统电子设计自动化（EDA）工具在计算效率与设计质量方面面临严峻挑战。布局与布线作为后端设计流程中的核心环节，其结果直接影响芯片的性能、功耗与面积（PPA）。其中，全局布线问题具有强组合优化特性与复杂约束条件，属于典型的 NP 难问题；同时，传统以串行处理为主的算法难以充分利用现代并行计算平台的算力优势，在处理千万级以上规模电路时面临速度与质量的双重瓶颈。
+
+  针对上述问题，本文围绕“基于并行计算及模块化优化的 VLSI 高效布局布线算法”展开研究，从模块化布局优化工作流、集成并行布线加速的初始布线工作流两个层面构建统一优化框架，实现面向超大规模电路设计的高效协同优化。首先，在布局阶段，提出一种基于模块化布局优化的工作流。该方法引入拥塞感知机制对模块空间分布进行动态调节，基于 Slime 模块化布局算法实现对高拥塞区域的前瞻性抑制，并结合模拟退火等优化技术构建适用于布局阶段的完整流程，从而有效降低后续布线阶段的拥塞压力，为全局布线提供更优初始条件。其次，在初始布线阶段，提出一套应用于全局布线阶段的动态拥塞感知初始布线工作流。该方法在生成树构建与路径选择过程中引入实时更新的拥塞代价模型，使布线决策能够动态反映当前全局资源分布状态，从而缓解传统串行布线算法中静态代价函数导致的局部最优问题。同时，通过改进线网排序与路径搜索策略，提高初始布线整体质量，减少后续撤销重连与迷宫布线阶段的计算负担。
+
+  在此基础上，针对超大规模电路设计中的计算效率问题，本文设计并实现了一种面向并行计算平台的全局布线加速方法。该方法从数据级并行与线网级并行两个层面出发，对布线流程进行模块化重构：一方面，通过构建统一数据结构与并行更新机制，实现全局布线资源的高效并行维护；另一方面，通过任务划分与冲突消解策略，实现多线网并行布线计算，从而在保证布线质量的前提下显著提升算法运行效率。此外，结合 GPU 等并行计算平台的高吞吐特性，对关键计算模块进行优化，实现对计算密集型任务的加速处理。最后，本文在多个标准测试基准上对所提出的方法进行了系统实验验证。实验结果表明，待补充。
+
+\end{abstract}
+
+\begin{abstract*}
+  With the continuous evolution of advanced process nodes, the scale and complexity of very-large-scale integration (VLSI) designs are growing exponentially, which poses severe challenges to traditional electronic design automation (EDA) tools in both computational efficiency and design quality. As a core stage of backend implementation, placement and routing directly determines power, performance, and area (PPA). Among related tasks, global routing is a typical NP-hard problem with strong combinational optimization characteristics and complex constraints. Meanwhile, conventional serial routing algorithms cannot fully exploit modern parallel computing platforms, resulting in dual bottlenecks of runtime and solution quality for circuits with tens of millions of instances.
+
+  To address these challenges, this thesis investigates an efficient VLSI placement-and-routing methodology based on parallel computing and modular optimization. A unified optimization framework is established from two perspectives: a modular placement optimization workflow and an initial routing workflow integrated with parallel routing acceleration, enabling efficient collaborative optimization for ultra-large-scale circuit designs. First, in the placement stage, a modular placement optimization workflow is proposed. A congestion-aware mechanism is introduced to dynamically regulate module distribution. Based on the Slime modular placement algorithm, highly congested regions are proactively suppressed, and simulated annealing and related optimization techniques are incorporated to form a complete placement-stage workflow. This effectively reduces congestion pressure in subsequent routing stages and provides better initial conditions for global routing. Second, in the initial routing stage, a dynamic congestion-aware workflow for global routing is proposed. A real-time updated congestion cost model is embedded into Steiner tree construction and path selection, allowing routing decisions to reflect current global resource distributions and alleviating local-optimum issues caused by static cost functions in conventional serial algorithms. In addition, improved net ordering and path search strategies further enhance initial routing quality and reduce the computational burden of rip-up and reroute as well as maze-routing stages.
+
+  On this basis, to improve computational efficiency for ultra-large-scale designs, a global-routing acceleration method oriented to parallel computing platforms is designed and implemented. From both data-level and net-level parallelism, the routing flow is modularly reconstructed. On the one hand, a unified data structure and parallel update mechanism are developed for efficient maintenance of global routing resources. On the other hand, task partitioning and conflict resolution strategies are adopted to enable parallel computation across multiple nets, thereby significantly improving runtime while maintaining routing quality. Furthermore, key computational modules are optimized for high-throughput parallel platforms such as GPUs, accelerating compute-intensive tasks. Finally, systematic experiments are conducted on multiple standard benchmarks to validate the proposed methods. Experimental results show that: to be supplemented.
+\end{abstract*}
+
+% 法语（第三种语言）摘要，本科不需要就全部注释掉即可，研究生请直接注释
+%\begin{abstract**}
+%  La longeur de l'abstract français doit faire référence à l'abstract chinois. Le titre de l'abstract français est «ABSTRACT». La première lettre de chaque mot-clé doit être en gros, et les mots-clés doivent être séparer par des virgules et espaces. Les mots-clés de chaque langue doivent être correspondants les uns aux autres.
+%\end{abstract**}
