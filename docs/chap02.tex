@@ -1,292 +1,374 @@
-\chapter{本科生毕业论文写作与印制规范}
+\chapter{数字集成电路后端设计流程与全局布线技术基础}
+\label{cha:backend-flow-and-global-routing-fundamentals}
 
-\label{cha:sysu-thesis-contents-format-requirement}
+\section{数字集成电路后端设计全流程}
 
+数字集成电路后端设计（Physical Design）是连接前端逻辑设计与芯片制造的核心环节，其核心目标是将前端综合生成的门级网表，转换为满足时序、功耗、面积与可制造性约束的物理版图，最终输出可用于流片的图形数据库文件（Graphic Database System II, GDSII）。随着集成电路工艺进入7\,nm及以下先进节点，芯片规模达到百亿级晶体管级别，后端设计复杂度显著提升。全局布线（Global Routing）作为后端设计中影响时序收敛、绕通率与良率的关键步骤，其技术优化已成为后端设计的重要研究方向。
 
-% TODO 引用
-该部分将学校规定中的毕业论文（设计）写作与印制规范复制了过来，并在其中展示相关例子表明格式的正确性。
-
-
-\section{毕业论文的撰写内容与要求}
-
-\subsection{封面}
-
-
-纸质版封面由学校统一印发（电子版请参见文后示例）。封面内容包括论文题目、所在院系专业、学生姓名学号、指导教师（姓名及职称）等信息。论文题目应以简短、明确的词语恰当概括整个论文的核心内容，避免使用不常见的缩略词、缩写字。读者通过题目可大致了解毕业论文的内容、专业特点和学科范畴。论文题目一般不宜超过25个字，必要时可增加副标题。
-
-\subsection{扉页}
-
-扉页内容包括论文中英文题目、学生姓名、学号、院系、专业、指导教师（姓名及职称）等信息。格式详见文后示例。
-
-\subsection{学术诚信声明}
-
-内容及格式详见文后示例。
-
-\subsection{摘要和关键词}
-
-\begin{enumerate}
-    \item \textbf{中文摘要和关键词} \\
-          摘要应概括论文的主要信息，应具有独立性和自含性，即不阅读论文的全文，就能获得必要的信息。摘要内容一般应包括研究目的、内容、方法、成果和结论，要突出论文的创造性成果或新见解，不要与绪论相混淆。语言力求精练、准确，以300-500字为宜。关键词是供检索用的主题词条，应体现论文特色，具有语义性，在论文中有明确的出处，并应尽量采用《汉语主题词表》或各专业主题词表提供的规范词。关键词与摘要应在同一页，在摘要的下方另起一行注明，一般列3-5个，按词条的外延层次排列（外延大的排在前面）。
-    \item \textbf{英文摘要和关键词} \\
-          英文摘要及关键词内容应与中文摘要及关键词内容相同。中英文摘要及其关键词各置一页内。
-\end{enumerate}
-
-\subsection{目录}
-
-目录是论文的提纲，也是论文各章节组成部分的小标题。要求标题层次清晰，目录中的标题要与正文中的标题一致。
-
-
-\subsection{正文}
-
-正文是毕业论文的主体和核心部分，不同学科专业和不同的选题可以有不同的写作方式。正文一般包括以下几个方面：
-
-\begin{enumerate}
-    \item \textbf{绪论} \\
-          绪论应包括毕业论文选题的背景、目的和意义；对国内外研究现状和相关领域中已有的研究成果的简要评述；介绍本项研究工作研究设想、研究方法或实验设计、理论依据或实验基础；涉及范围和预期结果等。要求言简意赅，注意不要与摘要雷同或成为摘要的注解。
-    \item \textbf{主体} \\
-          论文主体是毕业论文的主要部分，必须言之成理，论据可靠，严格遵循本学科国际通行的学术规范。在写作上要注意结构合理、层次分明、重点突出，章节标题、公式图表符号必须规范统一。论文主体的内容根据不同学科有不同的特点，一般应包括以下几个方面：
-          \begin{enumerate}
-              \item 毕业论文总体方案或选题的论证；
-              \item 毕业论文各部分的设计实现，包括实验数据的获取、数据可行性及有效性的处理与分析、各部分的设计计算等；
-              \item 对研究内容及成果的客观阐述，包括理论依据、创新见解、创造性成果及其改进与实际应用价值等；
-              \item 论文主体的所有数据必须真实可靠，凡引用他人观点、方案、资料、数据等，无论曾否发表，无论来源于纸质或电子版材料，均应详加注释。自然科学论文应推理正确、结论清晰；人文和社会学科的论文应把握论点正确、论证充分、论据可靠，恰当运用系统分析和比较研究的方法进行模型或方案设计，注重实证研究和案例分析，根据分析结果提出建议和改进措施等。
-          \end{enumerate}
-    \item \textbf{结论} \\
-          结论是毕业论文的总结，是整篇论文的归宿，应精炼、准确、完整。结论应着重阐述自己的创造性成果及其在本研究领域中的意义和作用，还可进一步提出需要讨论的问题和建议。
-\end{enumerate}
-
-\subsection{参考文献}
-
-参考文献是毕业论文不可缺少的组成部分，它反映毕业论文的取材来源、材料的广博和可靠程度，也是作者对他人知识成果的承认和尊重。凡有引用他人的著作、论文等，均应列于参考文献中。
-
-\subsection{相关的科研成果目录}
-
-本科期间发表的与毕业论文相关的论文或被鉴定的技术成果、发明专利等，应在成果目录中列出。此项不是必需项，空缺时可以省略。
-
-\subsection{附录}
-
-对于一些不宜放在正文中的重要支撑材料，可编入毕业论文的附录中，包括某些重要的原始数据、详细数学推导、程序全文及其说明、复杂的图表、设计图纸等一系列需要补充提供的说明材料。如果毕业论文中引用的实例、数据资料，实验结果等符号较多时，为了节约篇幅，便于读者查阅，可以编写一个符号说明，注明符号代表的意义。附录的篇幅不宜太多，一般不超过正文。此项不是必需项，空缺时可以省略。
-
-\subsection{致谢}
-
-致谢应以简短的文字对课题研究与论文撰写过程中曾直接给予帮助的人员(例如指导教师、答疑教师及其他人员)表达自己的谢意，这不仅是一种礼貌，也是对他人劳动的尊重，是治学者应当遵循的学术规范。内容限一页。
-
-
-\section{毕业论文的撰写格式要求}
-
-
-\subsection{文字和字数}
-
-
-除外国语言文学类专业外，其他专业的毕业论文须采用简化汉语文字撰写。论文正文部分一般不少于8000 字，各专业可根据需要确定具体的字数要求，并报教务部备案。
-
-\subsection{字体和字号}
-
-标题一般用黑体，内容一般用宋体，数字和英文字母一般用Times New Roman，具体如\autoref{tab:font-spec}。
-
-\begin{table}[]
-    \caption{字体使用规范}
-    \begin{tabular}{|c|c|}
-        \hline
-        论文题目               & 黑体二号居中                                  \\ \hline
-        中文摘要标题           & 黑体三号居中                                  \\ \hline
-        中文摘要内容           & 宋体小四号                                    \\ \hline
-        中文关键词             & 宋体小四号（标题``关键词''加粗）              \\ \hline
-        英文摘要标题           & Times New Roman加粗三号全部大写               \\ \hline
-        英文摘要内容           & Times New Roman小四号                         \\ \hline
-        英文关键词             & Times New Roman小四号（标题``Keywords''加粗） \\ \hline
-        目录标题               & 黑体三号居中                                  \\ \hline
-        目录内容               & 宋体小四号                                    \\ \hline
-        正文各章标题           & 黑体三号居中                                  \\ \hline
-        正文各节一级标题       & 黑体四号左对齐                                \\ \hline
-        正文各节二级及以下标题 & 宋体小四号加粗左对齐空两格                    \\ \hline
-        正文内容               & 宋体小四号                                    \\ \hline
-        参考文献标题           & 黑体三号居中                                  \\ \hline
-        参考文献内容           & 宋体五号                                      \\ \hline
-        致谢、附录标题         & 黑体三号居中                                  \\ \hline
-        致谢、附录内容         & 宋体小四号                                    \\ \hline
-        页眉与页脚             & 宋体五号居中                                  \\ \hline
-        图题、表题             & 宋体五号                                      \\ \hline
-        脚注、尾注             & 宋体小五号                                    \\ \hline
-    \end{tabular}
-    \label{tab:font-spec}
-\end{table}
-
-
-字体样例可见如下（以居中形式展现）： \\
-
-
-
-\begin{center}
-    {\heiti\zihao{2}黑体二号居中} \\
-
-    {\heiti\zihao{3}黑体三号居中} \\
-
-    {\heiti\zihao{4}黑体四号居中} \\
-
-    {\songti\zihao{4}宋体四号居中} \\
-
-    {\songti\zihao{-4}宋体小四号居中} \\
-
-    {\songti\zihao{5}宋体五号居中} \\
-
-    {\songti\zihao{-5}宋体小五号居中} \\
-
-    {\zihao{3} Times New Roman : Three} 三号居中 \\
-
-    {\zihao{-4} Times New Roman : Small Four} 小四号居中 \\
-
-\end{center}
-
-
-\subsection{页面设置}
-
-纸张大小：A4。
-
-页边距：上边距25 mm，下边距20 mm，左右边距均为30 mm。
-
-行距：1.5倍行距，章和节标题段前段后各空0.5行。
-
-\subsection{页码}
-
-页面底端居中，从摘要开始至绪论之前以大写罗马数字（
-\uppercase\expandafter{\romannumeral1} ，
-\uppercase\expandafter{\romannumeral2} ，
-\uppercase\expandafter{\romannumeral3} ，
-…）单独编连续码，绪论开始至论文结尾，以阿拉伯数字（1，2，3…）编连续码。
-
-\subsection{关键词}
-
-
-摘要正文下方另起一行顶格打印``关键词''款项，后加冒号，多个关键词以逗号分隔。
-
-\subsection{目录}
-
-目录应另起一页，包括论文中的各级标题，按照``一……''、``（一）……''或``1……''、``1.1……''格式编写。
-
-\subsection{各级标题}
-
-正文各部分的标题应简明扼要，不使用标点符号。论文内文各大部分的标题用``一、二……（或1、2……）''，次级标题为``（一）、（二）……（或1.1、2.1……）''，三级标题用``1、2……（或1.1.1、2.1.1……）''，四级标题用``（1）、（2）……（或1.1.1.1、2.1.1.1……）''，不再使用五级以下标题。两类标题不要混编。
-
-\subsection{名词术语}
-
-\begin{enumerate}
-    \item 科学技术名词术语尽量采用全国自然科学名词审定委员会公布的规范词或国家标准、部标准中规定的名称，尚未统一规定或叫法有争议的名词术语，可采用惯用的名称。
-    \item 特定含义的名词术语或新名词、以及使用外文缩写代替某一名词术语时，首次出现时应在括号内注明其含义，如：经济合作与发展组织（Organisation for Economic Co-operation and Development, OECD）。
-    \item 外国人名一般采用英文原名，可不译成中文，英文人名按姓前名后的原则书写，如：CRAY P，不可将外国人姓名中的名部分漏写，例如：不能只写CRAY, 应写成CRAY P。一般很熟知的外国人名(如牛顿、爱因斯坦、达尔文、马克思等)可按通常标准译法写译名。
-\end{enumerate}
-
-\subsection{物理量名称、符号与计量单位}
-
-\begin{enumerate}
-    \item 论文中某一物理量的名称和符号应统一，应采用国务院发布的《中华人民共和国法定计量单位》、国际公认或各行业领域惯用的计量单位。单位名称和符号的书写方式，应采用国际通用符号。
-    \item 在不涉及具体数据表达时允许使用中文计量单位如``千克''。
-    \item 表达时刻应采用中文计量单位，如``下午3点10分''，不能写成``3h10min''，在表格中可以用``3:10PM''表示。
-    \item 物理量符号、物理量常量、变量符号用斜体，计量单位符号均用正体。
-\end{enumerate}
-
-\subsection{数字}
-
-\begin{enumerate}
-    \item 无特别约定情况下，一般均采用阿拉伯数字表示。
-    \item 年份一律使用4位数字表示。
-          % \item 统计符号的格式：一般除$\mu$、$\alpha$、$\beta$、$\lambda$、$\varepsilon$ 以及$V$等符号外，其余统计符号一律以斜体字呈现，如$ANCOVA$，$ANOVA$，$MANOVA$，$N$，$nl$，$M$，$SD$，$F$，$p$，$r$等。
-    \item 统计符号的格式：一般除μ、α、β、λ、ε以及V等符号外，其余统计符号一律以斜体字呈现，如\textit{ANCOVA}，\textit{ANOVA}，\textit{MANOVA}，\textit{N}，\textit{nl}，\textit{M}，\textit{SD}，\textit{F}，\textit{p}，\textit{r}等。
-\end{enumerate}
-
-
-\subsection{公式}
-
-\begin{enumerate}
-    \item 公式应另起一行写在稿纸中央。一行写不完的长公式，最好在等号处转行，如做不到这一点，可在运算符号（如``+''、``-''号）处转行，等号或运算符号应在转行后的行首。
-    \item 公式的编号用圆括号括起，放在公式右边行末，在公式和编号之间不加虚线。公式可按全文统编序号，也可按章编独立序号，如（49）、（4.11）、（4-11）等。采用哪一种序号应和图序、表序编法一致。不应出现某章里的公式编序号，有的则不编序号。子公式可不编序号，需要引用时可加编a、b、c……，重复引用的公式不得另编新序号。公式序号必须连续，不得重复或跳缺。
-    \item 文中引用某一公式时，可写成``由式（序号）''。
-\end{enumerate}
-
-\ \\
-
-这是一个例子：
-
-\begin{equation}
-    \label{eq:example-formulas}
-    ax^2 +bx+c = 0
-\end{equation}
-
-
-如\autoref{eq:example-formulas}所示，为了求解该一元二次方程，我们可以推导得到该方程的求根公式。因此，由\autoref{eq:example-formulas2}即可求解该方程的两个根。
-
-\begin{equation}
-    \label{eq:example-formulas2}
-    \begin{split}
-        x_1 = & \frac{-b+\sqrt{b^2-4ac}}{2a} \\
-        & \\
-        x_2 = & \frac{-b-\sqrt{b^2-4ac}}{2a}
-    \end{split}
-\end{equation}
-
-\subsection{表格}
-
-\begin{enumerate}
-    \item 表格必须与论文叙述有直接联系，不得出现与论文叙述脱节的表格。表格中的内容在技术上不得与正文矛盾。
-    \item 每个表格都应有自己的标题和序号。标题应写在表格上方正中，不加标点，序号写在标题左方。
-    \item 全文的表格可以统一编序，也可以逐章单独编序。采用哪一种方式应和插图、公式的编序方式统一。表序必须连续，不得跳缺。
-    \item 表格允许下页接写，接写时标题省略，表头应重复书写，并在右上方写``续表××''。多项大表可以分割成块，多页书写，接口处必须注明``接下页''、``接上页''、``接第×页''字样。
-    \item 表格应放在离正文首次出现处最近的地方，不应超前和过分拖后。
-\end{enumerate}
-
-
-例子可见\autoref{tab:table-example}。
-
-\begin{table}[!htbp]
-    \centering
-    \caption{表格例子}
-    \label{tab:table-example}
-    \begin{tabular}{|l|l|}
-        \hline
-        \multicolumn{1}{|c|}{这是表格第一行第一列} & 这是表格第一行第二列 \\ \hline
-        这是表格第二行第一列                       & 这是表格第二行第二列 \\ \hline
-    \end{tabular}
-\end{table}
-
-\subsection{图}
-
-
-\begin{enumerate}
-    \item 插图应与文字内容相符，技术内容正确。所有制图应符合国家标准和专业标准。对无规定符号的图形应采用该行业的常用画法。
-    \item 每幅插图应有标题和序号，全文的插图可以统一编序，也可以逐章单独编序，采取哪一种方式应和表格、公式的编序方式统一。图序必须连续，不重复，不跳缺。
-    \item 由若干分图组成的插图，分图用a、b、c……标序。分图的图名以及图中各种代号的意义，以图注形式写在图题下方，先写分图名，另起行写代号的意义。
-    \item 图与图标题、图序号为一个整体，不得拆开排版为两页。当页空白不够排版该图整体时，可将其后文字部分提前，将图移至次页最前面。
-    \item 对坐标轴必须进行文字标示，有数字标注的坐标图必须注明坐标单位。
-\end{enumerate}
-
-例子可见\autoref{fig:example-figure}。
+完整的数字集成电路后端设计全流程可分为7个核心阶段。各阶段前后衔接、迭代优化，共同保证芯片设计的最终交付。图~\ref{fig:chap2-flow-overview-placeholder}给出了流程框图占位。
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=3cm]{example-image-a}
-    \caption{图片例子}
-    \label{fig:example-figure}
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-1 数字集成电路后端设计全流程框图\\
+            要求：按顺序标注各核心阶段与输入输出数据流向。
+        }}
+    \caption{数字集成电路后端设计全流程框图（占位）}
+    \label{fig:chap2-flow-overview-placeholder}
 \end{figure}
 
-\subsection{注释}
+\subsection{设计导入与数据准备}
 
-毕业论文（设计）中有个别名词或情况需要解释时，可加注说明。注释采用脚注或尾注，应根据注释的先后顺序编排序号。注释序号以``①、②''等数字形式标示在正文中被注释词条的右上角，脚注或尾注内容中的序号应与被注释词条序号保持一致。
+设计导入是后端设计的起始阶段，核心是完成全流程所需设计数据与工艺数据的校验与导入，避免前端设计错误流入后续环节并造成高额迭代成本。该阶段核心输入包括：
+\begin{enumerate}
+    \item \textbf{门级网表}：由前端逻辑综合生成，包含标准单元、宏单元（Static Random Access Memory, SRAM；Intellectual Property, IP核等）的实例化与连接关系，需经过形式验证以确保与寄存器传输级（Register Transfer Level, RTL）设计功能一致；
+    \item \textbf{时序约束文件}：通常为Synopsys设计约束（Synopsys Design Constraints, SDC）格式，定义芯片工作频率、输入输出延迟、时钟特性与时序例外，是全流程时序优化的核心依据；
+    \item \textbf{工艺库文件}：包含代工厂提供的时序库（\texttt{.lib}）、物理库（Library Exchange Format/Design Exchange Format, LEF/DEF）及设计规则检查（Design Rule Check, DRC）/版图与原理图一致性检查（Layout Versus Schematic, LVS）规则文件，定义标准单元与宏单元的物理尺寸、引脚位置、时序特性、功耗参数及制造规则约束；
+    \item \textbf{物理约束文件}：定义芯片核心区尺寸、输入输出（Input/Output, IO）单元位置、宏单元摆放约束与电源域划分等物理实现要求。
+\end{enumerate}
 
-脚注例子可见这里\footnote{这是一个脚注}。
+该阶段的核心输出是经过一致性与完整性校验的设计数据库，为后续布图规划提供可靠基础。
 
-\subsection{参考文献}
+\subsection{布图规划（Floorplan）}
 
-参考文献的序号左顶格，并用数字加方括号表示，如``[1]''。每一条参考文献著录均以``.''结束。各类参考文献的具体编排格式请参照国家标准《信息与文献 参考文献著录规则》（GB/T 7714-2015）。
+布图规划是后端设计中决定芯片整体性能的关键环节，其目标是完成芯片整体物理布局规划，确定宏单元、IO单元与电源网络位置，为后续标准单元布局与布线预留资源，并在面积、时序与功耗之间实现折中。
 
-参考文献例子可见这里\cite{sysu-thesis}。
+布图规划的核心内容包括：
+\begin{enumerate}
+    \item \textbf{宏单元布局}：针对SRAM、锁相环（Phase Locked Loop, PLL）、高速接口IP等硬核宏单元，根据接口方向、时序需求与功耗特性进行摆放。实践中通常将宏单元沿核心区边缘排布，以减少内部通道阻挡并缩短关键互连长度；
+    \item \textbf{IO单元与电源环设计}：在芯片边界排布IO与静电放电（Electrostatic Discharge, ESD）防护单元，同时构建电源环（Power Ring）以保障核心区供电稳定；
+    \item \textbf{电源地网络设计}：在核心区构建横竖交错的电源地网格（Power Delivery Network, PDN / Power Grid），依据功耗分布调整线宽与密度，保证压降（IR Drop）与电迁移（Electromigration, EM）满足约束；
+    \item \textbf{布局区域划分}：依据电源域与功能模块划分核心区，定义各区域标准单元利用率上限，为后续布局与布线保留资源裕量。
+\end{enumerate}
 
-一些例子：
+图~\ref{fig:chap2-floorplan-placeholder}给出了典型布图规划示意占位。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-2 典型数字芯片布图规划示意图\\
+            要求：标注宏单元、IO环、电源网格、核心布局区与布线通道。
+        }}
+    \caption{典型数字芯片布图规划示意图（占位）}
+    \label{fig:chap2-floorplan-placeholder}
+\end{figure}
+
+布图规划质量直接影响后续布局布线收敛性。不合理的布图规划会诱发严重拥塞、时序违例与电源噪声问题，甚至导致回退重做，显著拉长设计周期。
+
+\subsection{布局（Placement）}
+
+布局环节的核心目标是将标准单元摆放到布图规划定义的核心区合法位置，在满足不重叠与可制造约束的前提下，最小化总线长、优化时序并均衡拥塞，为后续时钟树综合与布线奠定基础。
+
+标准布局流程通常分为三个阶段：
+\begin{enumerate}
+    \item \textbf{全局布局（Global Placement）}：不强制满足物理合法性，以线长与时序目标为主进行初始分布，常采用非线性规划或二次规划；
+    \item \textbf{合法化（Legalization）}：将单元对齐到标准单元行并消除重叠，尽量减小位移以保留全局布局收益；
+    \item \textbf{详细布局（Detailed Placement）}：通过局部交换、平移和尺寸调整等操作，进一步优化局部线长、时序与拥塞。
+\end{enumerate}
+
+\subsection{时钟树综合（Clock Tree Synthesis, CTS）}
+
+时钟网络负载大、翻转频繁，其传输质量直接影响芯片最高工作频率与时序收敛。时钟树综合（Clock Tree Synthesis, CTS）的核心目标是构建从时钟源到各时序单元时钟引脚的时钟分发网络，在满足时钟偏移（Skew）和时钟延迟（Latency）约束的同时，控制功耗与面积并提升鲁棒性。
+
+CTS核心流程包括：
+\begin{enumerate}
+    \item \textbf{拓扑规划}：依据时钟域划分与触发器分布选择拓扑结构，如H树、X树、鱼骨型与平衡缓冲树；
+    \item \textbf{缓冲器插入与树构建}：通过插入缓冲器分割长线并平衡各路径延迟，常见方法包括延迟合并嵌入（Deferred Merge Embedding, DME）与Prim-Dijkstra折中策略；
+    \item \textbf{时钟树优化}：利用有用偏斜（Useful Skew）改善建立/保持违例，并通过门控时钟单元优化降低动态功耗；
+    \item \textbf{时钟树签核}：提取寄生参数并完成静态时序分析，验证偏移、延迟与脉宽等指标。
+\end{enumerate}
+
+CTS完成后，主路径时序结构基本固定，后续布线阶段可调整空间有限，因此CTS是后端时序收敛的重要里程碑。
+
+\subsection{布线（Routing）}
+
+布线是后端设计中耗时最长、复杂度最高的环节。其目标是在金属层上完成信号网与电源网的物理走线，并满足DRC、时序、信号完整性与可制造性要求。
+
+工业界布线流程通常包括两个阶段：
+\begin{enumerate}
+    \item \textbf{全局布线（Global Routing）}：将核心区划分为全局网格单元（Global Cell, G-Cell），在不确定具体几何细节前提下规划线网大致路径，估计拥塞、线长与延迟，并完成初步层分配；
+    \item \textbf{详细布线（Detailed Routing）}：在全局路径指导下确定精确走线位置、线宽与过孔，严格满足工艺规则并进一步优化串扰、时序与功耗。
+\end{enumerate}
+
+图~\ref{fig:chap2-metal-stack-placeholder}给出了金属层堆叠示意占位。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-5 芯片金属层堆叠结构示意图\\
+            要求：展示上下层金属的水平/垂直交替方向、过孔结构、底层与高层金属线宽差异。
+        }}
+    \caption{芯片金属层堆叠结构示意图（占位）}
+    \label{fig:chap2-metal-stack-placeholder}
+\end{figure}
+
+全局布线的路径质量直接决定详细布线的绕通率、时序收敛与迭代次数，是本章后续讨论重点。
+
+\subsection{物理验证与签核（Signoff）}
+
+布线完成后进入签核阶段，目标是验证物理版图满足全部设计与制造约束，确保流片后功能正确、性能达标且良率可控。核心内容包括：
+\begin{enumerate}
+    \item \textbf{DRC检查}：验证线宽、线距、过孔尺寸与包围区等制造规则；
+    \item \textbf{LVS检查}：验证版图连接关系与前端网表一致性；
+    \item \textbf{时序签核}：提取寄生并执行静态时序分析（Static Timing Analysis, STA），覆盖多工艺角与工作环境；
+    \item \textbf{功耗与电源完整性签核}：评估动态/静态功耗并验证IR Drop与EM约束；
+    \item \textbf{可制造性设计检查}：执行可制造性设计（Design for Manufacturability, DFM）优化，如冗余过孔与光刻友好修正。
+\end{enumerate}
+
+\subsection{先进工艺下后端设计的核心挑战}
+
+进入7\,nm及以下节点后，后端设计对全局布线提出更高要求，主要挑战包括：
+\begin{enumerate}
+    \item \textbf{布线资源紧张与拥塞加剧}：晶体管密度持续提升而布线资源增长受限，拥塞问题更加突出；
+    \item \textbf{时序收敛难度上升}：金属电阻增大导致长线RC延迟显著增加，关键路径优化压力上升；
+    \item \textbf{信号完整性与电源完整性风险上升}：串扰、IR Drop与EM问题更敏感，需在全局阶段提前感知；
+    \item \textbf{设计规模与复杂度快速增长}：超大规模线网使串行算法效率不足，并行化与加速计算成为必然。
+\end{enumerate}
+
+\section{全局布线技术原理与标准流程}
+
+全局布线是详细布线前的关键预布线环节。其核心是在不确定具体几何形态的前提下，为全部线网生成可行全局路径并预分配资源，在兼顾线长、时序与拥塞的同时，为详细布线提供高质量指导，降低后续迭代成本。
+
+\subsection{全局布线的核心定义与输入输出}
+
+\subsubsection{全局布线的网格模型}
+
+工业界主流全局布线工具普遍采用G-Cell网格模型：将核心区划分为等大小矩形网格单元。每个G-Cell边界对应布线通道，通道具有固定容量（Capacity），由金属层可用资源、线宽与线距等工艺参数共同决定。当实际需求超过容量时即产生拥塞（Congestion）。
+
+图~\ref{fig:chap2-gcell-model-placeholder}给出了网格模型占位。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-6 全局布线G-Cell网格模型示意图\\
+            要求：标注G-Cell边界、布线容量、已占用容量、拥塞区域定义与可视化方式。
+        }}
+    \caption{全局布线G-Cell网格模型示意图（占位）}
+    \label{fig:chap2-gcell-model-placeholder}
+\end{figure}
+
+\subsubsection{全局布线的核心目标}
+
+全局布线是多目标优化问题，主要目标包括：
+\begin{enumerate}
+    \item \textbf{绕通率优先}：保证线网可行路径并控制整体拥塞；
+    \item \textbf{时序优化}：优先保障关键路径线网延迟；
+    \item \textbf{线长最小化}：在满足约束前提下降低总线长；
+    \item \textbf{资源均衡}：均衡不同区域与不同层资源占用；
+    \item \textbf{可制造性优化}：控制过孔数量并合理使用高层长距离走线。
+\end{enumerate}
+
+\subsubsection{全局布线的输入与输出}
+
+全局布线输入通常包括：布局后的DEF、网表与SDC、工艺LEF，以及布图规划与PDN障碍信息。输出通常包括：
 \begin{itemize}
-    \item 著作：中文著作\cite{peng2024}、外文著作\cite{scargall2020, knuth1997}、中文译著\cite{scargall2021}
+    \item 线网的G-Cell级路径序列；
+    \item 全芯片拥塞分布图；
+    \item 金属层分配结果；
+    \item 线长与延迟预估结果。
 \end{itemize}
 
-\subsection{附录}
+工业界流程通常分为树生成（Tree Generation）、模式布线与层分配（Pattern Routing and Layer Assignment）、迷宫布线（Maze Routing）三个阶段。
 
-论文附录依次用大写字母``附录A、附录B、附录C……''表示，附录内的分级序号可采用``附A1、附A1.1、附A1.1.1''等表示，图、表、公式均依此类推为``图A1、表A1、式A1''等。
+\subsection{树生成阶段（Tree Generation）}
 
-% TODO：增加引用例子。
+树生成阶段将多端线网转换为连通树拓扑，确定引脚连接关系与Steiner点（Steiner Point）位置，为后续路径规划提供拓扑基础。在曼哈顿平面场景下，多端线网线长最优解通常对应直角Steiner最小树（Rectilinear Steiner Minimum Tree, RSMT）。
+
+\subsubsection{Flute算法：主流RSMT构建方法}
+
+Flute（Fast Lookup Table Based Rectilinear Steiner Minimal Tree）算法是工业界与学术界应用广泛的RSMT构建算法，在主流EDA流程中有良好工程实践。其核心优势是对小引脚数线网可高效获取高质量拓扑，并对大引脚数线网通过分治策略保持较优质量与速度平衡。
+
+Flute流程包括：
+\begin{enumerate}
+    \item \textbf{预处理阶段}：针对小规模引脚组合建立查找表（Look-Up Table, LUT）；
+    \item \textbf{在线处理阶段}：按引脚规模选择查表或分治合并策略，输出近似最优RSMT。
+\end{enumerate}
+
+此外，Flute支持增量更新，适用于工程变更指令（Engineering Change Order, ECO）场景下的局部树重构。
+
+\subsubsection{时序驱动的树生成算法}
+
+线长最优并不必然等价于时序最优。对关键路径而言，需要在树生成阶段引入时序驱动目标。主流方法包括：
+\begin{enumerate}
+    \item \textbf{Prim-Dijkstra折中算法}：通过权重系数在最小生成树（Minimum Spanning Tree, MST）与最短路径树（Shortest Path Tree, SPT）之间折中；
+    \item \textbf{缓冲器插入感知树生成}：在拓扑构建时引入缓冲器位置与代价；
+    \item \textbf{时钟树专用方法}：如DME算法，重点优化偏移一致性。
+\end{enumerate}
+
+\subsection{Pattern Routing与层分配（Layer Assignment）}
+
+Pattern Routing通过预定义模式将树边快速映射到G-Cell网格，是全局布线效率的核心来源。其特点是无需全图搜索即可覆盖大部分线网，再将少量困难线网交由Maze Routing处理。
+
+\subsubsection{常用Pattern Routing走线模式}
+
+常见模式包括：
+\begin{enumerate}
+    \item \textbf{L型模式}：单拐点、实现简单，适合低拥塞短连线；
+    \item \textbf{Z型（N型）模式}：双拐点，保持曼哈顿最短线长且具备更强绕障能力；
+    \item \textbf{十字型模式}：面向Steiner点的多分支连接；
+    \item \textbf{X型模式}：面向支持45度走线的工艺场景；
+    \item \textbf{鱼骨型模式}：面向总线类并行线网的协同规划。
+\end{enumerate}
+
+图~\ref{fig:chap2-patterns-placeholder}给出了模式示意占位。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-9 常用Pattern Routing走线模式示意图\\
+            要求：包含L型、Z型、十字型、X型、鱼骨型Pattern及适用场景对比。
+        }}
+    \caption{常用Pattern Routing走线模式示意图（占位）}
+    \label{fig:chap2-patterns-placeholder}
+\end{figure}
+
+\subsubsection{Pattern Routing执行流程}
+
+Pattern Routing通常遵循时序优先原则：
+\begin{enumerate}
+    \item 按时序优先级对线网排序；
+    \item 逐网逐边选择合适Pattern生成初始路径；
+    \item 校验容量并在必要时更换Pattern以规避拥塞；
+    \item 完成后进行局部后处理以均衡拥塞并压缩线长。
+\end{enumerate}
+
+\subsubsection{层分配（Layer Assignment）}
+
+层分配将全局路径映射到具体金属层，需要在时序、拥塞与过孔成本间折中。一般而言，低层金属更适合局部短连线，高层金属更适合长距离关键走线。
+
+层分配核心目标包括：
+\begin{enumerate}
+    \item 最小化总延迟并优先保障关键线网；
+    \item 均衡各层拥塞；
+    \item 控制过孔数量；
+    \item 满足DRC约束。
+\end{enumerate}
+
+\paragraph{基于动态规划的层分配算法}
+
+动态规划方法可用于单线网层分配最优化。设路径分段为$N$，金属层数为$M$，定义状态$dp[i][k]$表示第$i$段分配到第$k$层时的最小代价，则状态转移为：
+\begin{equation}
+    dp[i][k] = \min_{1 \leq j \leq M}\left( dp[i-1][j] + cost_{switch}(j,k) + cost_{layer}(i,k) \right)
+\end{equation}
+其中，$cost_{switch}$表示层切换代价，$cost_{layer}$表示当前层延迟与拥塞综合代价。该方法复杂度为$O(N\cdot M^2)$，在工程可接受范围内且效果稳定。
+
+\begin{table}[!htbp]
+    \centering
+    \caption{动态规划层分配算法伪代码（占位）}
+    \label{tab:chap2-dp-layer-assignment-placeholder}
+    \fbox{\parbox{0.88\textwidth}{
+            表位占位：后续补充动态规划层分配算法伪代码。
+        }}
+\end{table}
+
+\subsection{Maze Routing阶段}
+
+Maze Routing用于处理Pattern Routing未完成线网，通过网格搜索提升最终绕通率。其优势是可行性强，但直接全局搜索代价较高，因此工程中通常采用分层或局部化策略。
+
+\subsubsection{经典Lee迷宫布线算法}
+
+Lee算法本质是广度优先搜索（Breadth-First Search, BFS），在可行时保证最短路径。其步骤包括网格初始化、波前扩展与路径回溯。尽管鲁棒性强，但在大规模网格上计算与存储开销较高。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：迷宫布线水波法示意图。
+        }}
+    \caption{迷宫布线水波法示意图（占位）}
+    \label{fig:chap2-lee-wave-placeholder}
+\end{figure}
+
+\subsubsection{分层迷宫布线：粗粒度与细粒度折中方案}
+
+分层迷宫布线将求解拆分为粗粒度全局搜索与细粒度局部搜索两阶段：
+\begin{enumerate}
+    \item \textbf{粗粒度阶段}：通过超级网格（Super Cell）降低状态规模并快速规划全局通路；
+    \item \textbf{细粒度阶段}：在局部窗口内完成精细路径搜索，失败时扩大窗口或回退重规划。
+\end{enumerate}
+
+该方案可显著降低搜索规模，在效率与质量之间取得较好平衡。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-12 分层迷宫布线算法示意图\\
+            要求：展示粗粒度超级网格路径规划与细粒度局部网格搜索对比。
+        }}
+    \caption{分层迷宫布线算法示意图（占位）}
+    \label{fig:chap2-hier-maze-placeholder}
+\end{figure}
+
+\subsubsection{迷宫布线优化技术}
+
+常见优化包括：
+\begin{enumerate}
+    \item 双向搜索（Bidirectional Search）；
+    \item 时序驱动代价函数；
+    \item 拥塞驱动代价函数。
+\end{enumerate}
+
+\section{全局布线的优化变种算法}
+
+随着先进工艺下设计规模持续增长，传统流程在效率与质量上都面临瓶颈。工业界与学术界围绕搜索策略、并行调度与目标函数构建提出了多类优化变种。
+
+\subsection{A*算法与启发式搜索优化}
+
+A*算法是在Lee算法基础上引入启发式函数的有指导搜索方法，能够在保证最优性的前提下显著减少搜索节点数量，是当前迷宫布线中的重要技术。
+
+\subsubsection{A*算法核心原理}
+
+A*的评价函数定义为：
+\begin{equation}
+    f(n) = g(n) + h(n)
+\end{equation}
+其中，$g(n)$为起点到当前节点的实际代价，$h(n)$为到终点的启发式估计。为保证全局最优，$h(n)$应满足可采纳性。对曼哈顿布线，常用启发式函数为：
+\begin{equation}
+    h(n) = |x_n - x_{end}| + |y_n - y_{end}|
+\end{equation}
+
+\subsubsection{A*算法实现流程}
+
+A*标准流程包括：
+\begin{enumerate}
+    \item 初始化开放集合（Open）与关闭集合（Closed）；
+    \item 每轮取$f(n)$最小节点扩展；
+    \item 更新邻接节点代价与父指针；
+    \item 抵达终点后回溯得到路径。
+\end{enumerate}
+
+图~\ref{fig:chap2-astar-vs-lee-placeholder}给出了A*与Lee搜索范围对比占位。
+
+\begin{figure}[!htbp]
+    \centering
+    \fbox{\parbox{0.88\textwidth}{
+            \centering
+            图位占位：图2-13 A*算法与Lee算法搜索范围对比示意图\\
+            要求：体现启发式引导带来的搜索范围缩小效果。
+        }}
+    \caption{A*算法与Lee算法搜索范围对比示意图（占位）}
+    \label{fig:chap2-astar-vs-lee-placeholder}
+\end{figure}
+
+\subsection{全局布线并行化算法}
+
+面向千万级以上线网规模，串行全局布线已难满足工程时限。并行化全局布线的核心挑战在于资源依赖与冲突控制：不同线网对共享G-Cell容量的竞争会影响拥塞估计与最终绕通质量。
+
+因此，并行算法通常需要同时设计：
+\begin{enumerate}
+    \item \textbf{任务划分机制}：按区域、按线网簇或按优先级分层划分任务；
+    \item \textbf{冲突消解机制}：采用容量预留、回滚重路由或代价重加权；
+    \item \textbf{同步与收敛机制}：通过批次提交与全局拥塞反馈实现稳定收敛。
+\end{enumerate}
+
+\section{本章小结}
+
+本章系统介绍了数字集成电路后端设计全流程与全局布线关键技术。首先从流程层面梳理了设计导入、布图规划、布局、CTS、布线与签核等关键阶段，明确了全局布线在后端流程中的枢纽作用；随后从算法层面分析了树生成、Pattern Routing与层分配、Maze Routing等标准流程，并进一步讨论了A*启发式搜索与并行化优化方向。
+
+总体而言，先进工艺下全局布线面临资源紧张、时序收敛困难与规模爆发等挑战。围绕拥塞感知、时序驱动与并行加速的系统化优化，将是后续章节展开算法研究与工程实现的基础。
