@@ -5,6 +5,7 @@
             "--network=host"
         ]
     },
+    "postCreateCommand": "node -v && npm -v && npx -v",
     "customizations": {
         "vscode": {
             "extensions": [

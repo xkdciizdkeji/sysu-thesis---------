@@ -1,0 +1,67 @@
+A Dynamic Congestion-Aware Analytic Initial Routing Flow for VLSI Designs
+Junxi Feng, Lang Feng*
+School of Integrated Circuits, Sun Yat-sen University, Shenzhen 518107, China
+*Corresponding Author’s Email: fenglang3@mail.sysu.edu.cn
+
+
+Abstract
+Initial routing is one critical step of global routing at the early stage. A recent work forms initial routing as differentiable models and achieves better routing quality by deploying it on GPUs for efficient parallel optimization. However, it still lacks enough considerations on congestion without fine-grained global layout conditions. In this work, we propose a dynamic congestion-aware analytic initial routing flow, where methods are proposed to iteratively prune nets, generate congestion-aware tree candidates, and perform tree updating. The congestion estimation becomes more precise through this procedure to provide a better solution. According to the experiments on ISPD’24 contest and ICCAD’19 contest benchmarks, the proposed flow can achieve 16.8% and 46.5% less overflow on average after global routing, compared with two state-of-the-art global routers.
+
+Introduction
+In recent years, the size and cell density of digital VLSI keep rapidly growing, which consistently increases the routing difficulties on runtime and routing congestion, respectively. Initial routing is at the early stage of the global routing, which usually contains steps such as tree generation and pattern routing, and the quality of its results can notably affect the routing in the later stages.
+The initial routing of the traditional global routers, such as FastRoute[1], NTHU-Route 2.0[2], CUGR2[3], etc., typically employs combinatorial algorithms without full consideration on parallel computing. Besides, due to the relative serial process, it is hard to consider congestion conditions globally enough when routing each net, resulting in spaces for further improvement.
+To try to address the above challenges, a recent work DGR[4] proposed an analytic differentiable routing model based on the selection of multiple tree candidates and each of their 2-pin patterns, which is not only able to conduct initial routing of all nets simultaneously, but also able to be parallelly optimized by deploying on GPUs. It achieves better quality than previous work CUGR2. 
+However, this state-of-the-art analytic routing still suffers from the limitations on inferior tree candidates due to the restriction on congestion prediction in the initial stage. To further improve the routing quality, we propose a dynamic congestion-aware analytic initial routing flow. By dynamically calculating the overall congestion of the layout and pruning the well routed nets and the inferior tree candidates, it efficiently generates high quality initial routing results that provide low congested global routing results. The contributions are as follows.
+1. A dynamic congestion-aware analytic initial routing flow is proposed. By deploying the flow on GPUs, the initial routing can be efficiently conducted.
+2. Methods are proposed to iteratively prune nets, generate congestion-aware tree candidates, and perform tree updating. This increases the effectiveness of congestion prediction and removes inferior tree candidates for better quality.
+3. Throughout experiments are conducted on ISPD’24[5] and ICCAD’19[6] benchmarks. The global routing results based on the proposed flow can achieve 16.8% and 46.5% better congestion than the state-of-the-art analytic and combinatorial global routers DGR and CUGR2, respectively.
+
+BACKGROUND AND PROPOSED fLOW
+Background
+A recent work DGR proposed an analytic initial routing flow. By simultaneously modeling all nets as tree and 2-pin path selection problem, and deploying this differentiable model on GPUs by leveraging machine learning toolkit PyTorch[7], it achieved better results compared to the traditional global router. It contains following steps:
+1. Tree forest generation: Initially, DGR generates two possible tree candidates for each net. One is from FLUTE[8] and another is from the fine-tuning after the pattern routing of CUGR2. This forms a tree forest such as Nets A, B, and C in Figure 1. Then, the selection decisions of tree candidates and their 2-pin paths are modeled as probability variables, based on which loss functions are then built to model the wirelength, via, and congestion overflow cost, which can be referred to work[4]. 
+2. Differentiable 2D pattern routing: Firstly, the objective function is built to minimize the loss formed in the previous step. Then, using the existing machine learning toolkit with its optimizer, the loss is optimized with the regression of the probability variables. Finally, the selection decisions are made according to the corresponding trees and 2-pin paths with larger probability values, which is shown as blue in Figure 1.
+As the tree forest is generated from scratch, without a priori fine-grained routing solution, the congestion estimation is too coarse to generate tree candidates that are fine-tuned enough towards congestion. This limits the optimality upper bound. In contrast, we propose a dynamic congestion-aware initial routing flow to mitigate this challenge, provide more fine-tuned trees, and further improve the routing quality. 
+
+Figure 1: Differentiable 2D pattern routing
+
+Dynamic Congestion-Aware Analytic Initial Routing
+To efficiently consider more congestion conditions during the initial routing, we designed the initial routing flow in Figure 2, which contains 3 phases shown as gray.
+Given a placed layout, the initialization phase then generates a tree forest that considers both wirelength and congestion. It first generates a rectilinear steiner minimal tree (RSMT) using FLUTE, and conducts trial routing based on the obtained RSMT to generate a congestion distribution map. This congestion estimation is currently coarse but will be refined in the later iterations. Following this, we generate a congestion-aware routing tree using edge-shifting, thereby completing the initialization of the tree forest during the initialization phase.
+After performing the analytic parallel differentiable 2D pattern routing according to Figure 1, the suitable tree candidates and 2-pin path patterns are obtained, shown as blue parts on the right of Figure 2. Layer assignment is then performed to obtain a 3D routing result. However, due to the limited number of tree candidates and the difficulties of accurately estimating the congestion during the initialization stage, even if the differentiable 2D pattern routing can globally select a better tree, there may still exist ignored tree candidates with better congestion avoiding ability. Therefore, we propose an iterative initial routing flow. We evaluate the congestion conditions of all nets based on the latest 3D routing results, prune and update the tree candidates accordingly.
+For congested nets, we dynamically utilize the newly obtained, more precise fine-grained congestion distribution to generate an updated congestion-aware routing tree. Given the more accurate congestion distribution, the new routing tree will significantly enhance the final routing outcome. This newly generated routing tree will replace the inferior tree, which was not selected for the corresponding net. An example is shown as Nets A and B in Figure 2. Therefore, we dynamically establish a congestion-aware tree forest based on real-time congestion conditions, thereby increasing the likelihood of achieving a globally optimal final routing result.
+
+Figure 2: Proposed initial routing flow
+For well-routed nets without congestion such as Net C, further differentiable 2D pattern routing is unnecessary. Therefore, we prune these nets from the tree forest prior to the next iteration. Since usually a majority of nets has no congestion, this dynamic pruning approach significantly reduces the number of tree candidates in the next differentiable pattern routing to save computing resources.
+Consequently, benefiting from the dynamic updates of congestion-aware routing trees and the strategy of pruning well-routed nets, we enhanced the routing quality and reduced congestion while achieving a good trade-off between routing performance and time consumption.
+
+Experimental results
+Experimental Setup
+We implemented the proposed initial routing flow for 5 iterations based on the DGR framework reimplemented using libtorch(C++ version)[9], and tested it on the benchmarks by ISPD’24 and ICCAD’19 contests. Experiments are conducted on a server with Intel Xeon Gold 2.60 GHz CPUs and one NVIDIA A100 GPU.
+
+Quality Results and Comparisons
+We compared the global routing performance of the dynamic congestion ware initial routing flow algorithm with DGR and CUGR2 on the benchmark provided by ISPD'24 contest and the hidden benchmark using only 5 routing layers provided by ICCAD'19 contest. It is worth noting that different global routers use different overflow metrics, which significantly affect wirelength and the number of vias. For a fair comparison, we used the precise overflow metric given in CUGR2[3] when evaluating the results of overflow. As shown in TABLE I , compared with CUGR2 and DGR, our routing algorithm exhibits superior routing quality in most test cases, especially in reducing the number of G-cell edges with overflow by an average of 46.5% and 16.8%, respectively, compared to CUGR2 and DGR. The wirelength and the number of vias are basically the same as DGR.
+TABLE I. Performance comparison with CUGR2 and DGR
+
+ispd18_5m5 *: short for “ispd18_test5_metal5”
+Moreover, to highlight the necessity of trimming well routed nets, we conducted a runtime comparison with DGR in Figure 3. It showed that although we conducted up to 5 iterations of dynamic congestion-aware initial routing flow, the time did not increase linearly with iteration, and the difference between the two was less than 20%, which is acceptable with the benefit of overflow reduction.
+
+Figure 3: Comparison of time consumption with DGR
+ispd18_5m5 *: short for “ispd18_test5_metal5”
+In addition to the results of the complete global routing, we also explored the wirelength, the number of vias, and overflow of the initial routing flow itself for better illustrating the congestion reduction. As shown in Figure 4, even with only one iteration of the flow, it can effectively reduce congestion overflow by nearly 4%, while maintaining the quality of wirelength and the number of vias. As the number of iterations increases, it can further effectively reduce overflow without significant effect attenuation.
+
+Figure 4: Comparison of different iterations
+
+CONCLUSIONS
+In this work, we propose an analytic dynamic congestion-aware initial routing flow for VLSI designs, which can dynamically adjust the structure of the tree forest based on real-time congestion distribution while still utilizing GPU for parallel optimization. The experimental results show that our method outperforms the most advanced global routers in terms of overflow.
+
+REFERENCES
+[1]	W. M. Pan and C. Chu, “Fastroute: A step to integrate global routing into placement,” IEEE/ACM International Conference on Computer-Aided Design, pp. 464–471, 2006.
+[2]	Y. -J. Chang, Y. -T. Lee and T. -C. Wang, “NTHU-Route 2.0: A fast and stable global router,” 2008 IEEE/ACM International Conference on Computer-Aided Design, pp. 338-343, 2008.
+[3]	J. Liu and E. F. Y. Young, “EDGE: Efficient DAG-based global routing engine,” ACM/IEEE Design Automation Conference, pp. 1-6, 2023.
+[4]	W. Li, R. Liang, A. Agnesina, H. Yang, C. Ho, A. Rajaram and Haoxing Ren, “DGR: Differentiable global router,” ACM/IEEE Design Automation Conference, pp. 1-6, 2024.
+[5]	R. Liang, A. Agnesina, W H. Liu and H. Ren, “GPU/ML-enhanced large scale global routing contest,” International Symposium on Physical Design, pp. 269–274, 2024.
+[6]	S. Dolgov, A. Volkov, L. Wang and B. Xu, “2019 cad contest: Lef/def based global routing,” IEEE/ACM International Conference on Computer-Aided Design, pp. 1–4, 2019.
+[7]	“PyTorch: An optimized tensor library for deep learning,” https://pytorch.org/.
+[8]	C. Chu and Y.-C. Wong, “FLUTE: Fast lookup table based rectilinear steiner minimal tree algorithm for VLSI design,” IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems, vol. 27, no. 1, pp. 70–83, 2008.
+[9]	“Libtorch,” https://pytorch.org/cppdocs.
