@@ -120,10 +120,10 @@
         stage/.style={rectangle, rounded corners, draw=black, thick, align=center, minimum width=0.76\textwidth, minimum height=8.0mm, fill=gray!10, font=\small},
         arr/.style={-{Stealth[length=2.2mm]}, thick}
     ]
-        \node[stage] (s1) {阶段1：树生成（Tree Generation）};
-        \node[stage, below=of s1] (s2) {阶段2：模板布线（Pattern Routing）与层分配（Layer Assignment）};
-        \node[stage, below=of s2] (s3) {阶段3：撤销与重布（Rip-up and Reroute）};
-        \node[stage, below=of s3] (s4) {阶段4：迷宫布线（Maze Routing）};
+        \node[stage] (s1) {阶段1：树生成};
+        \node[stage, below=of s1] (s2) {阶段2：模板布线与层分配（Layer Assignment）};
+        \node[stage, below=of s2] (s3) {阶段3：撤销与重布};
+        \node[stage, below=of s3] (s4) {阶段4：迷宫布线};
 
         \draw[arr] (s1) -- (s2);
         \draw[arr] (s2) -- (s3);
@@ -133,7 +133,7 @@
     \label{fig:chap2-gr-four-stage-flow}
 \end{figure}
 
-\subsection{树生成阶段（Tree Generation）}
+\subsection{树生成阶段}
 
 树生成阶段是全局布线的起点，其任务是将多端线网转换为连通树拓扑，确定引脚连接关系与斯坦纳点（Steiner Node）位置，为后续模板布线与拥塞优化提供拓扑基础。在曼哈顿平面场景下，多端线网线长最优解通常对应直角斯坦纳最小树（Rectilinear Steiner Minimum Tree, RSMT）。
 
@@ -141,11 +141,7 @@
 
 Flute（Fast Lookup Table Based Rectilinear Steiner Minimal Tree）算法是工业界与学术界应用广泛的RSMT构建算法，在主流EDA流程中有良好工程实践。其核心优势是对小引脚数线网可高效获取高质量拓扑，并对大引脚数线网通过分治策略保持较优质量与速度平衡。
 
-Flute流程包括：
-\begin{enumerate}
-    \item \textbf{预处理阶段}：针对小规模引脚组合建立查找表（Look-Up Table, LUT）；
-    \item \textbf{在线处理阶段}：按引脚规模选择查表或分治合并策略，输出近似最优RSMT。
-\end{enumerate}
+Flute流程包括两个阶段：\textbf{预处理阶段}针对小规模引脚组合建立查找表（Look-Up Table, LUT）；\textbf{在线处理阶段}按引脚规模选择查表或分治合并策略，输出近似最优RSMT。
 
 图~\ref{fig:chap2-flute-flow}展示了Flute算法的核心处理链路：以线网引脚集合作为输入，通过查找表快速匹配拓扑，输出近似最优RSMT结果。
 
@@ -158,7 +154,7 @@ Flute流程包括：
     ]
         \node[flow] (in) {输入：线网引脚集合及其坐标信息};
         \node[flow, below=of in] (lut) {Flute查找表快速检索\\根据引脚模式匹配斯坦纳树拓扑};
-        \node[flow, below=of lut] (out) {输出：近似最优直角斯坦纳最小树（RSMT）};
+        \node[flow, below=of lut] (out) {输出：近似最优直角斯坦纳最小树};
 
         \draw[arr] (in) -- (lut);
         \draw[arr] (lut) -- (out);
@@ -169,7 +165,7 @@ Flute流程包括：
 
 此外，Flute算法在面临大引脚数线网时，可以通过高效的分割与合并策略，保持较优的质量与速度平衡。对于大规模线网，Flute会将引脚集合划分为多个子集合，分别构建子树后再进行合并，从而在保证整体质量的同时显著提升处理效率。
 
-\subsection{模板布线与层分配（Layer Assignment）}
+\subsection{模板布线与层分配}
 
 模板布线通过预定义布线模板将树边快速映射到G-Cell网格，是全局布线效率的核心来源。其特点是无需全图搜索即可覆盖大部分线网，再将少量困难线网交由Maze Routing处理。
 
@@ -193,11 +189,7 @@ Flute流程包括：
 
 \subsubsection{模板布线执行流程}
 
-模板布线执行流程可概括为两个核心步骤，如图~\ref{fig:chap2-template-routing-flow}所示：
-\begin{enumerate}
-    \item 根据输入的线网引脚进行生成树，产生直角斯坦纳最小树（Rectilinear Steiner Minimum Tree, RSMT）；
-    \item 对所有两引脚线网选择具体的模板路径候选。
-\end{enumerate}
+模板布线执行流程可概括为两个核心步骤，如图~\ref{fig:chap2-template-routing-flow}所示：根据输入的线网引脚生成树并产生直角斯坦纳最小树；对所有两引脚线网选择具体的模板路径候选。
 
 \begin{figure}[!htbp]
     \centering
@@ -206,7 +198,7 @@ Flute流程包括：
     \label{fig:chap2-template-routing-flow}
 \end{figure}
 
-\subsubsection{层分配（Layer Assignment）}
+\subsubsection{层分配}
 
 在层分配阶段，本文聚焦基于动态规划（Dynamic Programming, DP）的重分配算法。该算法将线网从起点到终点的候选层间转移关系建模为有向无环图（Directed Acyclic Graph, DAG），并在该图上求解最小代价路径。图~\ref{fig:chap2-dp-layer-reassignment}给出了动态规划层分配示意。
 
@@ -217,11 +209,7 @@ Flute流程包括：
     \label{fig:chap2-dp-layer-reassignment}
 \end{figure}
 
-其主要流程如下：
-\begin{enumerate}
-    \item 根据可布线通道构造有向无环图；
-    \item 在有向无环图基础上，根据边与边之间的走线权重，利用动态规划算法获得布线代价最小的路径。
-\end{enumerate}
+其主要流程如下：根据可布线通道构造有向无环图，并在有向无环图基础上根据边与边之间的走线权重，利用动态规划算法获得布线代价最小的路径。
 
 
 
@@ -273,7 +261,7 @@ Flute流程包括：
     \label{alg:chap2-dp-layer-assignment}
 \end{algorithm}
 
-\subsection{撤销与重布阶段（Rip-up and Reroute）}
+\subsection{撤销与重布阶段}
 
 模板布线与层分配完成后，部分线网仍可能集中穿越高拥塞边，导致局部溢出持续存在。撤销与重布阶段通过识别拥塞线网，局部拆除，生成绕线路径的流程，对高风险区域进行定向修复。
 
@@ -346,11 +334,11 @@ A*的评价函数定义为：
 
 \section{模块级布局技术基础}
 
-模块级布局是在布局阶段以模块而非单个标准单元（Standard Cell）作为主要优化对象的技术路线。其基本思想是先确定模块间的全局连接关系，再在模块位置以及模块边界层面进行修正，最后将模块布局约束引入到布局流程中。该策略能够在大规模设计中显著压缩搜索空间，在计算负载增加有限的情况下提升布局结果的质量。
+模块级布局是在布局阶段以模块而非单个标准单元作为主要优化对象的技术路线。其基本思想是先确定模块间的全局连接关系，再在模块位置以及模块边界层面进行修正，最后将模块布局约束引入到布局流程中。该策略能够在大规模设计中显著压缩搜索空间，在计算负载增加有限的情况下提升布局结果的质量。
 
 \subsection{模块级布局问题定义}
 
-给定电路网表、芯片边界、输入输出端口位置以及工艺规则，模块级布局需要确定模块中心位置、边界形态与模块间相对拓扑，使结果在满足合法性约束的前提下兼顾性能-功耗-面积（Performance, Power, Area, PPA）与布线质量。其本质是典型的多目标、多约束组合优化问题，常见目标包括：
+给定电路网表、芯片边界、输入输出端口位置以及工艺规则，模块级布局需要确定模块中心位置、边界形态与模块间相对拓扑，使结果在满足合法性约束的前提下兼顾性能-功耗-面积与布线质量。其本质是典型的多目标、多约束组合优化问题，常见目标包括：
 \begin{enumerate}
     \item 最小化跨模块互连线长；
     \item 确保模块形状的张力适中，避免过度拉伸或压缩；
@@ -361,16 +349,11 @@ A*的评价函数定义为：
 
 \subsection{网表分割与模块建模}
 
-模块级布局的第一步是将原始电路网表（Netlist）转换为可分割的数据结构。具体而言，将每个标准单元（Standard Cell）或宏单元（Macro）抽象为节点（Node），将节点间的连接关系抽象为线网（Net）或超边（Hyperedge），从而得到用于分割求解的模块连接图。
+模块级布局的第一步是将原始电路网表（Netlist）转换为可分割的数据结构。具体而言，将每个标准单元或宏单元（Macro）抽象为节点（Node），将节点间的连接关系抽象为线网（Net）或超边（Hyperedge），从而得到用于分割求解的模块连接图。
 
 在该图结构上，可利用图划分工具（如hMetis）按给定规模约束自动完成模块划分。划分目标通常是在控制模块面积平衡的同时，尽量提高模块内连接密度并降低模块间割边数量。经过分割后，原始高复杂度网表被降阶为模块级连接关系，后续布局优化的搜索空间显著收敛。
 
-从工程输出看，该步骤通常会生成两类关键结果：
-\begin{enumerate}
-    \item 模块归属关系：每个Cell到模块的映射；
-    \item 模块间连接关系：模块级线网权重与连接拓扑；
-    % \item 模块规模信息：各模块面积与边界范围估计。
-\end{enumerate}
+从工程输出看，该步骤通常会生成两类关键结果，首先是模块归属关系，包括每个Cell到模块的映射；其次是模块间连接关系，包括模块级线网权重与连接拓扑。
 
 图~\ref{fig:chap2-netlist-partition-modeling}给出了网表分割模块级建模的流程示意。
 
@@ -413,6 +396,6 @@ A*的评价函数定义为：
 
 \section{本章小结}
 
-本章围绕后续研究主题介绍了技术背景。首先简要给出后端设计全流程，并强调布局与全局布线在物理设计中的核心地位。随后系统介绍全局布线技术基础，包括网格模型、标准流程、典型算法。
+本章围绕后续研究主题介绍了技术背景。首先简要给出后端设计全流程的7个核心阶段，并强调布局与全局布线在物理设计中的核心地位。随后系统介绍全局布线技术基础，包括网格模型、4个标准流程（树生成、模板布线、撤销重布、迷宫布线）及3类典型算法（组合式、并行式、可微式）。
 
-除此以外，还简要介绍了模块级布局技术基础，介绍了网表分割与模块建模的方法以及模块级布局优化算法。以上内容共同构成第三章初始布线与第四章模块级布局细粒度优化方法的理论与工程基础。
+除此以外，还简要介绍了模块级布局技术基础，包括3个核心步骤（网表分割、模块建模、模块级布局优化）及2类主流路线（解析式、随机优化）。以上内容共同构成第三章初始布线与第四章模块级布局细粒度优化方法的理论与工程基础。

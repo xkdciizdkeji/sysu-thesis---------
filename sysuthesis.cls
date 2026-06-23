@@ -2085,6 +2085,7 @@
 }
 
 \newcommand\sysu@copyrightpage@graduate{%
+  \cleardoublepage
   \begin{titlepage}%
     \sysu@pdfbookmark{研究生原创性和授权使用声明}%
     \null
@@ -2097,7 +2098,12 @@
     学位论文作者签名：\hspace{3cm} \par %
     \vskip 0.5cm%
     日期：\hspace{1.1cm} 年 \hspace{0.7cm} 月 \hspace{0.7cm} 日\par
-    \vskip 1.9cm%
+  \end{titlepage}%
+  \cleardoublepage
+  \begin{titlepage}%
+    \sysu@pdfbookmark{研究生原创性和授权使用声明}%
+    \null
+    \vskip 0.3cm%
     {\centering\sffamily\fontsize{16bp}{32bp}\selectfont
      学位论文使用授权声明\par}%
     \vskip 0.7cm%
